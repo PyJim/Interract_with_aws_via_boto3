@@ -20,45 +20,60 @@ Before running the script, ensure the following:
 
 ## Features
 
-The script performs the following actions:
+The script includes the following functionality:
 
-1. **Checks if a Bucket Exists**:
-   - If the bucket already exists, it prints a message.
-   - If not, it attempts to create the bucket.
+1. **Bucket Existence Check**:
+   - Uses the `head_bucket` method to verify if the bucket already exists.
+   - Prints a message if the bucket is found.
+   - Attempts to create the bucket if it does not exist.
 
-2. **Creates a New S3 Bucket**:
-   - Creates a bucket with a specified name and region.
+2. **Bucket Creation**:
+   - Creates a bucket using `create_bucket` with region-specific configuration.
 
-3. **Lists All Buckets**:
-   - Lists all buckets in the AWS account.
+3. **Listing Buckets**:
+   - Lists all S3 buckets in the AWS account using `list_buckets`.
 
-4. **Deletes the Bucket**:
-   - Deletes the bucket created during the lab.
+4. **Deleting Buckets**:
+   - Deletes a specified bucket using the `delete_bucket` method.
 
 ## How to Run the Script
 
-1. Clone or copy the repository/files to your local machine.
+1. Clone or download the repository to your local machine.
 2. Navigate to the directory containing the script.
-3. Ensure the required environment variables are set. Example for Linux/macOS:
+3. Set the required environment variables. For Linux/macOS:
    ```bash
    export ACCESS_KEY_ID=<your-access-key-id>
    export SECRET_ACCESS_KEY=<your-secret-access-key>
-   export REGION=eu-north-1
+   export REGION=<aws-region>
    ```
    For Windows (Command Prompt):
    ```cmd
    set ACCESS_KEY_ID=<your-access-key-id>
    set SECRET_ACCESS_KEY=<your-secret-access-key>
-   set REGION=eu-north-1
+   set REGION=<aws-region>
    ```
 4. Run the script:
    ```bash
-   python <script_name>.py
+   python main.py
    ```
+
+## Code Explanation
+
+The script contains three main functions:
+
+### `create_bucket(bucket_name)`
+- Checks if the bucket exists.
+- Creates the bucket with a specified region if it does not exist.
+
+### `list_buckets()`
+- Retrieves and prints a list of all buckets in the AWS account.
+
+### `delete_bucket(bucket_name)`
+- Deletes the specified bucket.
 
 ## Expected Output
 
-The script will produce output similar to the following, depending on whether the bucket already exists, is created successfully, or is deleted:
+The script will produce output similar to this:
 
 ```
 Bucket 'test-user-todo-app-bucket' already exists.
@@ -68,17 +83,28 @@ Buckets:
 Bucket deleted
 ```
 
+### Example: Command Execution
+Below is a screenshot showing the script execution:
+
+![Command Execution](boto3.png)
+
+### Example: Bucket Created
+Below is a screenshot showing the bucket created in the AWS S3 dashboard:
+
+![Bucket Created](bucket_Created.png)
+
 ## Common Errors
 
 - **`ClientError: Access Denied`**:
   - Ensure the IAM user has the appropriate S3 permissions.
 - **`ClientError: InvalidAccessKeyId`**:
-  - Verify the AWS credentials are correct.
+  - Verify that your AWS credentials are correct.
 - **`S3UploadFailedError`**:
-  - Ensure the specified bucket name and region comply with AWS naming rules and region constraints.
+  - Ensure the bucket name and region comply with AWS naming and region constraints.
 
 ## Notes
 
 - Bucket names must be globally unique across all AWS accounts.
-- To avoid accidental data loss, ensure the bucket is empty before attempting deletion.
-- Modify the `BUCKET_NAME` variable in the script to test with different bucket names.
+- Ensure buckets are empty before attempting deletion to avoid `BucketNotEmpty` errors.
+- Modify the `BUCKET_NAME` constant to test with different bucket names.
+- You may want to comment out the `delete_bucket` function just so you can view the bucket in the AWS S3 dashboard.
