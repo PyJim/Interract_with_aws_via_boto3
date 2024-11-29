@@ -2,7 +2,7 @@ import os
 import boto3
 from botocore.exceptions import ClientError
 
-# Create a session (optional if you want to use specific credentials or region)
+# Create a session
 session = boto3.Session(
     aws_access_key_id=os.getenv('ACCESS_KEY_ID'),
     aws_secret_access_key=os.getenv('SECRET_ACCESS_KEY'),
